@@ -127,17 +127,19 @@ def parseGameConstraints(root):
         
         penalty = int(GA1_element.get("penalty")) if GA1_element.get("penalty") is not None else 0
         
+        games = []
         for meeting in meetings[:-1]:
-            game = tuple(map(int,meeting.split(",")))
-            const = GA1(game, slots, min_d, max_d, penalty)
+            games.append(tuple(map(int,meeting.split(","))))
+            
+        const = GA1(games, slots, min_d, max_d, penalty)
 
-            if const_type == "HARD":
-                Hard_constraints["GA1"].append(const)
-            else:
-                Soft_constraints["GA1"].append(const)
+        if const_type == "HARD":
+            Hard_constraints["GA1"].append(const)
+        else:
+            Soft_constraints["GA1"].append(const)
     
     return Hard_constraints, Soft_constraints
-
+    
 def parseBreakConstraints(root):
     """
         Parse the break constraints defined on teams
