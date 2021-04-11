@@ -236,7 +236,7 @@ def parseSeperationConstraints(root):
 
 def parseITC(fname):
     """
-        API method to parse all data and constraints of an ITC instance
+        API method to parse all data and constraints of an ITC instances
     """
     
     # Read the xml file
