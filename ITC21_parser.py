@@ -282,20 +282,18 @@ def parseITC(fname):
 
 root = et.parse("data/TestInstances_V3/ITC2021_Test1.xml")
 Game_infos, Hard_constraints, Soft_constraints = parseITC("data/TestInstances_V3/ITC2021_Test1.xml")
-for key in Hard_constraints.keys():
-    print(key,type(Hard_constraints[key]),Hard_constraints[key].keys())
-print(Game_infos)
+
 timetable = {
-    1: [(0,1), (2,3), (4,5)],
-    2: [(1,4), (3,0), (5,2)],
-    3: [(1,3), (0,5), (4,2)],
-    4: [(1,2), (4,0), (5,3)],
-    5: [(2,1), (3,0), (0,2)],
-    6: [(3,1), (5,0), (2,4)],
-    7: [(4,1), (0,3), (2,5)],
-    8: [(1,0), (3,2), (5,4)], 
-    9: [(2,1), (0,4), (3,5)],
-    10:[(1,5), (4,3), (2,0)]
+    0: [(0,1), (2,3), (4,5)],
+    1: [(1,4), (3,0), (5,2)],
+    2: [(1,3), (0,5), (4,2)],
+    3: [(1,2), (4,0), (5,3)],
+    4: [(2,1), (3,0), (0,2)],
+    5: [(3,1), (5,0), (2,4)],
+    6: [(4,1), (0,3), (2,5)],
+    7: [(1,0), (3,2), (5,4)], 
+    8: [(2,1), (0,4), (3,5)],
+    9:[(1,5), (4,3), (2,0)]
 }
 
 sol = SOLUTION(timetable)
