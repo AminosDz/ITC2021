@@ -11,6 +11,7 @@ from Game_constraints import GA1
 from Break_constraints import BR1, BR2
 from Fairness_constraints import FA2
 from Seperation_constraints import SE1
+from solution import SOLUTION
 
 pp = pprint.PrettyPrinter(indent=4, compact=True)
 
@@ -278,3 +279,25 @@ def parseITC(fname):
     
     return Game_infos, Hard_constraints, Soft_constraints
 
+
+root = et.parse("data/TestInstances_V3/ITC2021_Test1.xml")
+Game_infos, Hard_constraints, Soft_constraints = parseITC("data/TestInstances_V3/ITC2021_Test1.xml")
+for key in Hard_constraints.keys():
+    print(key,type(Hard_constraints[key]),Hard_constraints[key].keys())
+print(Game_infos)
+timetable = {
+    1: [(0,1), (2,3), (4,5)],
+    2: [(1,4), (3,0), (5,2)],
+    3: [(1,3), (0,5), (4,2)],
+    4: [(1,2), (4,0), (5,3)],
+    5: [(2,1), (3,0), (0,2)],
+    6: [(3,1), (5,0), (2,4)],
+    7: [(4,1), (0,3), (2,5)],
+    8: [(1,0), (3,2), (5,4)], 
+    9: [(2,1), (0,4), (3,5)],
+    10:[(1,5), (4,3), (2,0)]
+}
+
+sol = SOLUTION(timetable)
+
+sol.check_hard_constraints(Hard_constraints)
