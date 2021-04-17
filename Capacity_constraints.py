@@ -24,11 +24,13 @@ class CA2:
         return f'CA2 : Team {self.team_1_id} can play at most {self.max_d} {self.mode_game} games on slots {self.slots} against teams {self.teams_2_ids}'
 
 class CA3:
-    def __init__(self, team_1_id, teams_2_ids, mode_game, intp, penalty = 0) -> None:
+    def __init__(self, team_1_id, teams_2_ids, mode_game, max_d, intp, const_type, penalty = 0) -> None:
         self.team_1_id = team_1_id
         self.teams_2_ids = teams_2_ids
         self.mode_game = mode_game
         self.intp = intp
+        self.max_d = max_d
+        self.const_type = const_type
         self.penalty = penalty
 
     def __str__(self) -> str:

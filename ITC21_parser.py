@@ -77,12 +77,12 @@ def parseCapacityConstraints(root):
         mode_game = CA3_element.get("mode")
         intp = int(CA3_element.get("intp"))
         const_type = CA3_element.get("type")
-        
+        max_d = int(CA3_element.get("max")) if CA3_element.get("max") is not None else 0
         penalty = int(CA3_element.get("penalty")) if CA3_element.get("penalty") is not None else 0
         
         for team_1_id in teams_1_ids:
             
-            const = CA3(team_1_id, teams_2_ids, mode_game, intp, penalty)
+            const = CA3(team_1_id, teams_2_ids, mode_game, max_d, intp, const_type, penalty)
 
             if const_type == "HARD":
                 Hard_constraints["CA3"].append(const)
@@ -286,7 +286,7 @@ Game_infos, Hard_constraints, Soft_constraints = parseITC("data/TestInstances_V3
 Hard_constraints["CA"]["CA2"].append(CA2(1,[2], [4], 'A', 0, 0, 1))
 timetable = {
     0: [(0,1), (2,3), (4,5)],
-    1: [(1,4), (3,0), (5,2)],
+    1: [(1,3), (2,5), (5,2)],
     2: [(1,3), (0,5), (4,2)],
     3: [(1,2), (4,0), (5,3)],
     4: [(2,1), (3,0), (0,2)],
@@ -297,6 +297,8 @@ timetable = {
     9: [(1,5), (4,3), (2,0)]
 }
 
+
 sol = SOLUTION(timetable)
 
-sol.check_hard_constraints(Hard_constraints)
+Hard_constraints["CA"]["CA4"].append(CA4([1,2],[3,5],[1,2,3],'H','EVERY',0,1,1))
+sol.check_hard_constraints(Hard_constraints, Game_infos)
