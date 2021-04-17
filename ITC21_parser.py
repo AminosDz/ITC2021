@@ -283,6 +283,7 @@ def parseITC(fname):
 root = et.parse("data/TestInstances_V3/ITC2021_Test1.xml")
 Game_infos, Hard_constraints, Soft_constraints = parseITC("data/TestInstances_V3/ITC2021_Test1.xml")
 
+Hard_constraints["CA"]["CA2"].append(CA2(1,[2], [4], 'A', 0, 0, 1))
 timetable = {
     0: [(0,1), (2,3), (4,5)],
     1: [(1,4), (3,0), (5,2)],
@@ -293,7 +294,7 @@ timetable = {
     6: [(4,1), (0,3), (2,5)],
     7: [(1,0), (3,2), (5,4)], 
     8: [(2,1), (0,4), (3,5)],
-    9:[(1,5), (4,3), (2,0)]
+    9: [(1,5), (4,3), (2,0)]
 }
 
 sol = SOLUTION(timetable)
