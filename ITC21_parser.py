@@ -6,12 +6,14 @@ import pprint
 
 import itertools
 
-from Capacity_constraints import CA1, CA2, CA3, CA4
-from Game_constraints import GA1
-from Break_constraints import BR1, BR2
-from Fairness_constraints import FA2
-from Seperation_constraints import SE1
+from constraints.Capacity_constraints import CA1, CA2, CA3, CA4
+from constraints.Game_constraints import GA1
+from constraints.Break_constraints import BR1, BR2
+from constraints.Fairness_constraints import FA2
+from constraints.Seperation_constraints import SE1
 from solution import SOLUTION
+
+from constraint_checkers.CA_checkers import CA_checkers
 
 pp = pprint.PrettyPrinter(indent=4, compact=True)
 
@@ -301,4 +303,7 @@ timetable = {
 sol = SOLUTION(timetable)
 
 Hard_constraints["CA"]["CA4"].append(CA4([1,2],[3,5],[1,2,3],'H','EVERY',0,1,1))
-sol.check_hard_constraints(Hard_constraints, Game_infos)
+#sol.check_hard_constraints(Hard_constraints, Game_infos)
+ca_checkers = CA_checkers() 
+
+ca_checkers.check_hard_constraints(timetable, Hard_constraints["CA"], Game_infos)
