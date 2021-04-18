@@ -13,7 +13,7 @@ from constraints.Fairness_constraints import FA2
 from constraints.Seperation_constraints import SE1
 from solution import SOLUTION
 
-from constraint_checkers.CA_checkers import CA_checkers
+from constraint_checkers import CA_checkers, GA_checkers, BR_checkers, FA_checkers, SE_checkers
 
 pp = pprint.PrettyPrinter(indent=4, compact=True)
 
@@ -304,6 +304,33 @@ sol = SOLUTION(timetable)
 
 Hard_constraints["CA"]["CA4"].append(CA4([1,2],[3,5],[1,2,3],'H','EVERY',0,1,1))
 #sol.check_hard_constraints(Hard_constraints, Game_infos)
-ca_checkers = CA_checkers() 
+ca_checkers = CA_checkers.CA_checkers()
 
 ca_checkers.check_hard_constraints(timetable, Hard_constraints["CA"], Game_infos)
+
+
+Hard_constraints["GA"]["GA1"].append(GA1([(0, 1), (4, 5)], [0], 1, 1, penalty=5))
+
+ga_checkers = GA_checkers.GA_checkers()
+
+ga_checkers.check_hard_constraints(timetable, Hard_constraints["GA"], Game_infos)
+
+Hard_constraints["BR"]["BR1"].append(BR1(1, [2, 3], "H", 1))
+Hard_constraints["BR"]["BR2"].append(BR2([1, 3], [2, 3], 2)) 
+
+BR_checkers = BR_checkers.BR_checkers()
+
+BR_checkers.check_hard_constraints(timetable, Hard_constraints["BR"], Game_infos)
+
+Hard_constraints["FA"]["FA2"].append(FA2([1, 2], [1, 3, 6], 1))
+
+FA_checkers = FA_checkers.FA_checkers()
+
+FA_checkers.check_hard_constraints(timetable, Hard_constraints["FA"], Game_infos)
+
+
+Hard_constraints["SE"]["SE1"].append(SE1([1, 2], 1))
+
+SE_checkers = SE_checkers.SE_checkers()
+
+SE_checkers.check_hard_constraints(timetable, Hard_constraints["SE"], Game_infos)
