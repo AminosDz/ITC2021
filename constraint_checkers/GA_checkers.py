@@ -22,7 +22,7 @@ class GA_checkers(Checkers_base):
                 else:#soft constraint
                     deviation += max(0, n_games_in_slot - constraint.max_d) + max(0, constraint.min_d - n_games_in_slot)
 
-            global_deviation += deviation
+            global_deviation += deviation * constraint.penalty
 
         return global_deviation
 

@@ -39,16 +39,9 @@ class SE_checkers(Checkers_base):
                     deviation = max(0, min_slots - (s2 - s1 - 1))
                     break
 
-            global_deviation += deviation     
+            global_deviation += deviation * constraint.penalty     
 
         return global_deviation
-
-
-
-
-
-
-
 
 
     checkers = {"SE1": check_constraints_SE1}

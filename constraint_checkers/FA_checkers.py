@@ -28,7 +28,7 @@ class FA_checkers(Checkers_base):
                         else:
                             deviation = max(deviation, diff)
             
-            global_deviation += deviation
+            global_deviation += deviation * constraint.penalty
         
         return global_deviation
 

@@ -34,7 +34,7 @@ class BR_checkers(Checkers_base):
                         return -1
             
             deviation = max(0, n_breaks - max_breaks)
-            global_deviation += deviation
+            global_deviation += deviation * constraint.penalty
 
         return global_deviation
 
@@ -69,7 +69,7 @@ class BR_checkers(Checkers_base):
 
                 deviation += max(0, n_breaks - max_breaks)
 
-            global_deviation += deviation
+            global_deviation += deviation * constraint.penalty
 
         return global_deviation
 
