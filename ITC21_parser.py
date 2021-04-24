@@ -20,7 +20,7 @@ def parseTeams(root):
     nb_slots = len(root.findall(".//Slots/slot"))
 
     is_game_mode_phased = True if root.find(".//gameMode").text == "P" else False
-
+    
     all_teams = list(range(nb_teams))
     all_slots = list(range(nb_slots))
     
@@ -36,7 +36,7 @@ def parseCapacityConstraints(root):
     for CA1_element in root.findall(".//CapacityConstraints/CA1"):
     
         team_id = int(CA1_element.get("teams"))
-        slots = list(map(int,CA1_element.get("slots").split(";")))
+        slots = sorted(list(map(int,CA1_element.get("slots").split(";"))))
         mode_game = CA1_element.get("mode")
         min_d = int(CA1_element.get("min")) if CA1_element.get("min") is not None else 0
         max_d = int(CA1_element.get("max"))
@@ -55,8 +55,8 @@ def parseCapacityConstraints(root):
     
         team_1_id = int(CA2_element.get("teams1"))
         teams_2_ids = list(map(int,CA2_element.get("teams2").split(";")))
-        slots = list(map(int,CA2_element.get("slots").split(";")))
-        mode_game = CA2_element.get("mode")
+        slots = sorted(list(map(int,CA2_element.get("slots").split(";"))))
+        mode_game = CA2_element.get("mode1")
         min_d = int(CA2_element.get("min")) if CA2_element.get("min") is not None else 0
         max_d = int(CA2_element.get("max"))
         const_type = CA2_element.get("type")
@@ -74,15 +74,16 @@ def parseCapacityConstraints(root):
     
         teams_1_ids = list(map(int,CA3_element.get("teams1").split(";")))
         teams_2_ids = list(map(int,CA3_element.get("teams2").split(";")))
-        mode_game = CA3_element.get("mode")
+        mode_game = CA3_element.get("mode1")
         intp = int(CA3_element.get("intp"))
+        max_d = int(CA3_element.get("max"))
         const_type = CA3_element.get("type")
         
         penalty = int(CA3_element.get("penalty")) if CA3_element.get("penalty") is not None else 0
         
         for team_1_id in teams_1_ids:
             
-            const = CA3(team_1_id, teams_2_ids, mode_game, intp, penalty)
+            const = CA3(team_1_id, teams_2_ids, mode_game, intp, max_d, penalty)
 
             if const_type == "HARD":
                 Hard_constraints["CA3"].append(const)
@@ -93,7 +94,7 @@ def parseCapacityConstraints(root):
     
         teams_1 = list(map(int,CA4_element.get("teams1").split(";")))
         teams_2 = list(map(int,CA4_element.get("teams2").split(";")))
-        slots = list(map(int,CA4_element.get("slots").split(";")))
+        slots = sorted(list(map(int,CA4_element.get("slots").split(";"))))
         mode_game = CA4_element.get("mode1")
         mode_const = CA4_element.get("mode2")
         min_d = int(CA4_element.get("min")) if CA4_element.get("min") is not None else 0
@@ -121,7 +122,7 @@ def parseGameConstraints(root):
     for GA1_element in root.findall(".//GameConstraints/GA1"):
     
         meetings = GA1_element.get("meetings").split(";")
-        slots = list(map(int,GA1_element.get("slots").split(";")))
+        slots = sorted(list(map(int,GA1_element.get("slots").split(";"))))
         min_d = int(GA1_element.get("min")) if GA1_element.get("min") is not None else 0
         max_d = int(GA1_element.get("max"))
         const_type = GA1_element.get("type")
@@ -151,8 +152,8 @@ def parseBreakConstraints(root):
     for BR1_element in root.findall(".//BreakConstraints/BR1"):
     
         team_id = int(BR1_element.get("teams"))
-        slots = list(map(int,BR1_element.get("slots").split(";")))
-        mode_game = BR1_element.get("mode")
+        slots = sorted(list(map(int,BR1_element.get("slots").split(";"))))
+        mode_game = BR1_element.get("mode2")
         intp = int(BR1_element.get("intp"))
         const_type = BR1_element.get("type")
         
@@ -168,7 +169,7 @@ def parseBreakConstraints(root):
     for BR2_element in root.findall(".//BreakConstraints/BR2"):
     
         teams = list(map(int,BR2_element.get("teams").split(";")))
-        slots = list(map(int,BR2_element.get("slots").split(";")))
+        slots = sorted(list(map(int,BR2_element.get("slots").split(";"))))
         intp = int(BR2_element.get("intp"))
         const_type = BR2_element.get("type")
         
@@ -193,7 +194,7 @@ def parseFairnessConstraints(root):
     for FA2_element in root.findall(".//FairnessConstraints/FA2"):
         
         teams = list(map(int,FA2_element.get("teams").split(";")))
-        slots = list(map(int,FA2_element.get("slots").split(";")))
+        slots = sorted(list(map(int,FA2_element.get("slots").split(";"))))
         intp = int(FA2_element.get("intp"))
         const_type = FA2_element.get("type")
         
@@ -279,24 +280,3 @@ def parseITC(fname):
     
     return Game_infos, Hard_constraints, Soft_constraints
 
-
-root = et.parse("data/TestInstances_V3/ITC2021_Test1.xml")
-Game_infos, Hard_constraints, Soft_constraints = parseITC("data/TestInstances_V3/ITC2021_Test1.xml")
-
-Hard_constraints["CA"]["CA2"].append(CA2(1,[2], [4], 'A', 0, 0, 1))
-timetable = {
-    0: [(0,1), (2,3), (4,5)],
-    1: [(1,4), (3,0), (5,2)],
-    2: [(1,3), (0,5), (4,2)],
-    3: [(1,2), (4,0), (5,3)],
-    4: [(2,1), (3,0), (0,2)],
-    5: [(3,1), (5,0), (2,4)],
-    6: [(4,1), (0,3), (2,5)],
-    7: [(1,0), (3,2), (5,4)], 
-    8: [(2,1), (0,4), (3,5)],
-    9: [(1,5), (4,3), (2,0)]
-}
-
-sol = SOLUTION(timetable)
-
-sol.check_hard_constraints(Hard_constraints)
