@@ -11,7 +11,6 @@ from Game_constraints import GA1
 from Break_constraints import BR1, BR2
 from Fairness_constraints import FA2
 from Seperation_constraints import SE1
-from solution import SOLUTION
 
 pp = pprint.PrettyPrinter(indent=4, compact=True)
 
